@@ -1,0 +1,33 @@
+@ECHO OFF
+REM BFCPEOPTIONSTART
+REM Advanced BAT to EXE Converter www.BatToExeConverter.com
+REM BFCPEEXE=C:\Users\jeany\Desktop\touch-screen_toggle.exe
+REM BFCPEICON=
+REM BFCPEICONINDEX=0
+REM BFCPEEMBEDDISPLAY=0
+REM BFCPEEMBEDDELETE=1
+REM BFCPEADMINEXE=0
+REM BFCPEINVISEXE=1
+REM BFCPEVERINCLUDE=0
+REM BFCPEVERVERSION=1.0.0.0
+REM BFCPEVERPRODUCT=Product Name
+REM BFCPEVERDESC=Product Description
+REM BFCPEVERCOMPANY=Your Company
+REM BFCPEVERCOPYRIGHT=Copyright Info
+REM BFCPEOPTIONEND
+@ECHO ON
+@echo off
+
+reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Enum\HID\NTRG0001&Col02\5&63f74d3&0&0001" /v ConfigFlags
+
+FOR /F "tokens=3" %%i IN ('reg query "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Enum\HID\NTRG0001&Col02\5&63f74d3&0&0001" /v ConfigFlags') DO (
+    IF "%%i"=="0x1" (
+    	DevManView.exe /enable "HID\NTRG0001&Col02\5&63f74d3&0&0001"
+    	DevManView.exe /enable "ACPI\MSHW0028\4&38c98242&0"
+    ) ELSE IF "%%i"=="0x0" (
+    	DevManView.exe /disable "HID\NTRG0001&Col02\5&63f74d3&0&0001"
+    	DevManView.exe /disable "ACPI\MSHW0028\4&38c98242&0"
+    )
+)
+
+EXIT
